@@ -3,6 +3,8 @@ use std::time::Duration;
 
 extern crate ndk;
 
+use ndk::audio::AudioInputPreset;
+
 use crate::{
     BackendSpecificError, BuildStreamError, PauseStreamError, PlayStreamError, StreamError,
     StreamInstant,
@@ -76,6 +78,24 @@ impl From<ndk::audio::AudioError> for BuildStreamError {
                 description: e.to_string(),
             })
             .into(),
+        }
+    }
+}
+
+impl From<crate::Usage> for ndk::audio::AudioUsage {
+    fn from(value: crate::Usage) -> Self {
+        match value {
+            crate::Usage::Normal => Self::Media,
+            crate::Usage::PhoneCall => Self::VoiceCommunication,
+        }
+    }
+}
+
+impl From<crate::Usage> for ndk::audio::AudioInputPreset {
+    fn from(value: crate::Usage) -> Self {
+        match value {
+            crate::Usage::Normal => AudioInputPreset::Generic,
+            crate::Usage::PhoneCall => AudioInputPreset::VoiceCommunication,
         }
     }
 }

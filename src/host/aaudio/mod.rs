@@ -1,4 +1,3 @@
-use std::cell::RefCell;
 use std::cmp;
 use std::convert::TryInto;
 use std::time::{Duration, Instant};
@@ -14,7 +13,7 @@ use crate::{
     BackendSpecificError, BufferSize, BuildStreamError, Data, DefaultStreamConfigError,
     DeviceNameError, DevicesError, InputCallbackInfo, InputStreamTimestamp, OutputCallbackInfo,
     OutputStreamTimestamp, PauseStreamError, PlayStreamError, SampleFormat, SampleRate,
-    SizedSample, StreamConfig, StreamError, SupportedBufferSize, SupportedStreamConfig,
+    StreamConfig, StreamError, SupportedBufferSize, SupportedStreamConfig,
     SupportedStreamConfigRange, SupportedStreamConfigsError,
 };
 
@@ -404,9 +403,11 @@ impl DeviceTrait for Device {
         };
 
         let builder = ndk::audio::AudioStreamBuilder::new()?
+            .sharing_mode(ndk::audio::AudioSharingMode::Shared)
             .direction(ndk::audio::AudioDirection::Input)
             .channel_count(channel_count)
-            .format(format);
+            .format(format)
+            .usage(config.usage.into());
 
         build_input_stream(
             self,
@@ -453,9 +454,12 @@ impl DeviceTrait for Device {
         };
 
         let builder = ndk::audio::AudioStreamBuilder::new()?
+            .sharing_mode(ndk::audio::AudioSharingMode::Shared)
             .direction(ndk::audio::AudioDirection::Output)
             .channel_count(channel_count)
-            .format(format);
+            .format(format)
+            .usage(config.usage.into())
+            .input_preset(config.usage.into());
 
         build_output_stream(
             self,

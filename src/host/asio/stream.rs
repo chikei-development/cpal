@@ -672,6 +672,7 @@ fn check_config(
         channels,
         sample_rate,
         buffer_size: _,
+        usage: _,
     } = config;
     // Try and set the sample rate to what the user selected.
     let sample_rate = sample_rate.0.into();

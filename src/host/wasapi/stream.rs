@@ -351,7 +351,7 @@ fn boost_current_thread_priority(_: BufferSize, _: crate::SampleRate) {
         let thread_id = Threading::GetCurrentThreadId();
 
         let _ = Threading::SetThreadPriority(
-            HANDLE(thread_id as isize),
+            HANDLE(thread_id as *mut std::ffi::c_void),
             Threading::THREAD_PRIORITY_TIME_CRITICAL,
         );
     }

@@ -254,6 +254,17 @@ impl wasm_bindgen::convert::IntoWasmAbi for BufferSize {
     }
 }
 
+/// Represents different usage modes or contexts for the application.
+///
+/// This enum defines the various operational modes that determine
+/// how the application behaves in different scenarios.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Default)]
+pub enum Usage {
+    #[default]
+    Normal,
+    PhoneCall,
+}
+
 /// The set of parameters used to describe how to open a stream.
 ///
 /// The sample format is omitted in favour of using a sample type.
@@ -263,6 +274,7 @@ pub struct StreamConfig {
     pub channels: ChannelCount,
     pub sample_rate: SampleRate,
     pub buffer_size: BufferSize,
+    pub usage: Usage,
 }
 
 /// Describes the minimum and maximum supported buffer size for the device
@@ -410,6 +422,7 @@ impl SupportedStreamConfig {
             channels: self.channels,
             sample_rate: self.sample_rate,
             buffer_size: BufferSize::Default,
+            usage: Usage::Normal,
         }
     }
 }

@@ -407,7 +407,8 @@ impl DeviceTrait for Device {
             .direction(ndk::audio::AudioDirection::Input)
             .channel_count(channel_count)
             .format(format)
-            .usage(config.usage.into());
+            .usage(config.usage.into())
+            .input_preset(config.usage.into());
 
         build_input_stream(
             self,
@@ -458,8 +459,7 @@ impl DeviceTrait for Device {
             .direction(ndk::audio::AudioDirection::Output)
             .channel_count(channel_count)
             .format(format)
-            .usage(config.usage.into())
-            .input_preset(config.usage.into());
+            .usage(config.usage.into());
 
         build_output_stream(
             self,

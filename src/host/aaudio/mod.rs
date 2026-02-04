@@ -7,6 +7,7 @@ extern crate ndk;
 
 use convert::{stream_instant, to_stream_instant};
 use java_interface::{AudioDeviceDirection, AudioDeviceInfo};
+use ndk::audio::AudioPerformanceMode;
 
 use crate::traits::{DeviceTrait, HostTrait, StreamTrait};
 use crate::{
@@ -457,6 +458,7 @@ impl DeviceTrait for Device {
         let builder = ndk::audio::AudioStreamBuilder::new()?
             .sharing_mode(ndk::audio::AudioSharingMode::Shared)
             .direction(ndk::audio::AudioDirection::Output)
+            .performance_mode(AudioPerformanceMode::PowerSaving)
             .channel_count(channel_count)
             .format(format)
             .usage(config.usage.into());

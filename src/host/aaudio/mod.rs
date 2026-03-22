@@ -458,7 +458,7 @@ impl DeviceTrait for Device {
         let builder = ndk::audio::AudioStreamBuilder::new()?
             .sharing_mode(ndk::audio::AudioSharingMode::Shared)
             .direction(ndk::audio::AudioDirection::Output)
-            .performance_mode(AudioPerformanceMode::PowerSaving)
+            .performance_mode(AudioPerformanceMode::LowLatency)
             .channel_count(channel_count)
             .format(format)
             .usage(config.usage.into());

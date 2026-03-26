@@ -408,8 +408,9 @@ impl DeviceTrait for Device {
             .direction(ndk::audio::AudioDirection::Input)
             .channel_count(channel_count)
             .format(format)
-            .usage(config.usage.into())
-            .input_preset(config.usage.into());
+            .performance_mode(AudioPerformanceMode::LowLatency)
+            .usage(ndk::audio::AudioUsage::VoiceCommunication)
+            .input_preset(ndk::audio::AudioInputPreset::VoiceCommunication);
 
         build_input_stream(
             self,
@@ -461,7 +462,7 @@ impl DeviceTrait for Device {
             .performance_mode(AudioPerformanceMode::LowLatency)
             .channel_count(channel_count)
             .format(format)
-            .usage(config.usage.into());
+            .usage(ndk::audio::AudioUsage::VoiceCommunication);
 
         build_output_stream(
             self,
